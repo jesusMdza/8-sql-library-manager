@@ -1,5 +1,8 @@
 extends layout
 
+block title
+  title #{headTitle}
+
 block content
   h1 #{title}
   form(method='post' action='/books/' + book.id)
