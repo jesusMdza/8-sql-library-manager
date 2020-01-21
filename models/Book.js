@@ -7,8 +7,8 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notNull: {
-          msg: 'Please provide a value for "Title"'
+        notEmpty: {
+          msg: 'Title is required'
         }
       }
     },
@@ -16,8 +16,8 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notNull: {
-          msg: 'Please provide a value for "Author"'
+        notEmpty: {
+          msg: 'Author is required'
         }
       }
     },
