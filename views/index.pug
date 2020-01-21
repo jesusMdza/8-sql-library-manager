@@ -4,12 +4,13 @@ block title
   title #{headTitle}
 
 block content
-  h1 #{title}
-  p
-    a.button(href='/books/new') Create New Book
+  div.heading
+    h1 #{title}
+    div
+      a.button.create(href='/books/new') Add Book
   table
     thead
-      tr
+      tr.name-row
         th Title
         th Author
         th Genre
