@@ -7,7 +7,6 @@ body {
 a {
   color: #DFA671;
   text-decoration: none;
-  transition: 0.4s;
   font-weight: 700;
 }
 
@@ -26,7 +25,6 @@ a.button.cancel {
 }
 
 form a.button, input[type=submit] {
-  transition: 0.4s;
   background: #C58449;
 }
 
@@ -100,7 +98,6 @@ label {
   font-weight: 700;
   min-width: 130px;
   display: inline-block;
-  transition: 0.4s;
 }
 
 input {
