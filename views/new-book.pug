@@ -4,21 +4,24 @@ block title
   title #{headTitle}
 
 block content
-  h1 #{title}
-  form(action="/books/new" method="post")
-    p
-      label(for='title') Title
-      input#title(name='title' type='text')
-    p
-      label(for='author') Author
-      input#author(name='author' type='text')
-    p
-      label(for='genre') Genre
-      input#genre(name='genre' type='text')
-    p
-      label(for='year') Year
-      input#year(name='year' type='text')
-    p
-      input(type='submit' value='Create New Book')
-    p
-      a.button(href='/books') Cancel
+  div.heading
+    h1 #{title}
+    div.button-container
+      a.button.cancel(href='/books') Cancel
+  div.form-container
+    include form-error
+    form(action="/books/new" method="post")
+      h2
+        label(for='title') Title
+        input#title(name='title' type='text' value=newBook.title)
+      h2
+        label(for='author') Author
+        input#author(name='author' type='text' value=newBook.author)
+      h2
+        label(for='genre') Genre
+        input#genre(name='genre' type='text' value=newBook.genre)
+      h2
+        label(for='year') Year
+        input#year(name='year' type='text' value=newBook.year)
+      h2
+        input.create(type='submit' value='+ Create Book')
