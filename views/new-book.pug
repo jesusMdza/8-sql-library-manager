@@ -4,24 +4,49 @@ block title
   title #{headTitle}
 
 block content
-  div.heading
-    h1 #{title}
-    div.button-container
-      a.button.cancel(href='/books') Cancel
-  div.form-container
-    include form-error
-    form(action="/books/new" method="post")
-      h2
-        label(for='title') Title
-        input#title(name='title' type='text' value=newBook.title)
-      h2
-        label(for='author') Author
-        input#author(name='author' type='text' value=newBook.author)
-      h2
-        label(for='genre') Genre
-        input#genre(name='genre' type='text' value=newBook.genre)
-      h2
-        label(for='year') Year
-        input#year(name='year' type='text' value=newBook.year)
-      h2
-        input.create(type='submit' value='+ Create Book')
+  form(method='post' action="/books/new")
+    div.heading
+      h1 #{title}
+      div.button-container
+        div.multi-button-container  
+          h2
+            input.create(type='submit' value='+ Create Book')  
+          a.button.cancel(href='/books') Cancel
+    div.field-container
+      include form-error
+      if errors
+        if !newBook.title
+          h2
+            label(for='title') Title
+            input#title.error(name='title' type='text' value=newBook.title)   
+        if newBook.title
+          h2
+            label(for='title') Title
+            input#title(name='title' type='text' value=newBook.title)   
+        if !newBook.author
+          h2
+            label(for='author') Author
+            input#author.error(name='author' type='text' value=newBook.author)   
+        if newBook.author   
+          h2
+            label(for='author') Author
+            input#author(name='author' type='text' value=newBook.author)    
+        h2
+          label(for='genre') Genre
+          input#genre(name='genre' type='text' value=newBook.genre)
+        h2
+          label(for='year') Year
+          input#year(name='year' type='text' value=newBook.year)       
+      else 
+        h2
+          label(for='title') Title
+          input#title(name='title' type='text' value=newBook.title)
+        h2
+          label(for='author') Author
+          input#author(name='author' type='text' value=newBook.author)      
+        h2
+          label(for='genre') Genre
+          input#genre(name='genre' type='text' value=newBook.genre)
+        h2
+          label(for='year') Year
+          input#year(name='year' type='text' value=newBook.year)
