@@ -59,6 +59,12 @@ router.post('/:id', asyncHandler(async (req, res, next) => {
   res.redirect('/');
 }));
 
+/* GET Delete Page */
+router.get('/:id/delete', asyncHandler(async (req, res, next) => {
+  const book = await Book.findByPk(req.params.id);
+  res.render('delete-book', {headTitle: 'Delete Book', book: book});
+}));
+
 /* DELETE book. */
 router.post('/:id/delete', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
