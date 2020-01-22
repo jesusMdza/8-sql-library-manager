@@ -20,16 +20,47 @@ a.button, input[type=submit] {
   cursor: pointer;
 }
 
+a.button {
+  height: 22px;
+}
+
+a.button.delete {
+  background: #A72A2A;
+  margin-left: 20px;
+}
+
 a.button.cancel {
   background: #6C7085;
+  margin-left: 20px;
+}
+
+a.button.no {
+  background: #6C7085;
+  margin-left: 20px;
+}
+
+a.book-name {
+  padding-bottom: 3px;
+}
+
+a.book-name:hover {
+  border-bottom: 3px solid #bb8d62;
+}
+
+span.book-name-delete {
+  color: #DFA671;
 }
 
 form a.button, input[type=submit] {
-  background: #C58449;
+  background: rgb(190, 126, 65);
 }
 
 input[type=submit] {
   border: 0;
+}
+
+input.delete[type=submit] {
+  background: #A72A2A;
 }
 
 ul {
@@ -51,21 +82,27 @@ h1 {
   justify-content: space-between;
 }
 
-.heading div {
+.button-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-form input.create {
-  margin-top: 10px;
+.multi-button-container {
+  display: flex;
 }
+
+.heading .multi-button-container h2 {
+  margin: 0;
+  padding: 0;
+}
+
 
 form label {
   margin-right: 35px;
 }
 
-table, .form-container {
+table, .field-container {
   width: 55%;
   margin: 0 auto;
 }
@@ -85,8 +122,8 @@ td {
 }
 
 table .name-row th {
-  font-size: 1.4em;
-  font-weight: 700;
+  font-size: 1.42em;
+  font-weight: 500;
 }
 
 table tbody {
@@ -109,7 +146,7 @@ input {
 }
 
 input[type=text] {
-  height: 48px;
+  height: 55px;
   background: #222533;
   width: 75%;
   font-size: .7em;
@@ -124,16 +161,20 @@ input[type=text]:focus {
   border: 3px solid #535766;
 }
 
+input.error[type=text] {
+  border: 3px solid #BB4448;
+  color: #E5E5E5;
+}
+
 input.update {
   background: #778909;
 }
 
-input.delete {
-  background: #A72A2A;
-}
-
 .error {
   color: #F9444A;
-  font-size: 1.6em;
+  font-size: 1.5em;
 }
 
+form h2 {
+  padding: 5px 0;
+}
