@@ -1,0 +1,14 @@
+extends layout
+
+block title
+  title #{headTitle}
+
+block content
+  form(method='post' action=`/books/${book.id}/delete`)
+    h1 Are you sure you want to delete 
+      span.book-name-delete #{book.title}
+      | ?
+    div.button-container
+      div.multi-button-container
+        input.delete(type='submit' value='- Delete Book')
+        a.button.no(href=`/books/${book.id}`) No, Take Me Back!
