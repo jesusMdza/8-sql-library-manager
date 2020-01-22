@@ -6,7 +6,7 @@ block title
 block content
   div.heading
     h1 #{title}
-    div
+    div.button-container
       a.button.create(href='/books/new') Add Book
   table
     thead
@@ -19,7 +19,7 @@ block content
       each book in books
         tr
           td
-            a(href=`/books/${book.id}`) #{book.title}
+            a.book-name(href=`/books/${book.id}`) #{book.title}
           td #{book.author}
           td #{book.genre}
           td #{book.year}
