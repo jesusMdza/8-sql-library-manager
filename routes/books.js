@@ -16,7 +16,7 @@ function asyncHandler(callback) {
 
 /* GET home page. */
 router.get('/', asyncHandler(async (req, res, next) => {
-    const books = await Book.findAll();
+    const books = await Book.findAll({limit: 8});
     res.render("index", {headTitle: 'Books', title: 'Library', books: books});
 }));
 
@@ -30,7 +30,7 @@ router.post('/new', asyncHandler(async (req, res, next) => {
   let newBook;
   try {
     newBook = await Book.create(req.body);
-    res.redirect('/');
+    res.redirect('/books');
   }
   catch (error) {
     if (error.name === 'SequelizeValidationError') {
@@ -43,7 +43,7 @@ router.post('/new', asyncHandler(async (req, res, next) => {
 }));
 
 /* GET book by id. */
-router.get('/:id', asyncHandler(async (req, res, next) => {
+router.get('/:id/update', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   try {
     res.render('update-book', {headTitle: book.title, title: 'Update Book', book: book});
@@ -53,10 +53,13 @@ router.get('/:id', asyncHandler(async (req, res, next) => {
 }));
 
 /* UPDATE book by id. */
-router.post('/:id', asyncHandler(async (req, res, next) => {
-  const book = await Book.findByPk(req.params.id);
+router.post('/:id/update', asyncHandler(async (req, res, next) => {
+  console.error(req.body);
+  let book = await Book.findByPk(req.params.id);
+  console.error(book.title);
+  console.error(req.body);
   await book.update(req.body);
-  res.redirect('/');
+  res.redirect('/books');
 }));
 
 /* GET Delete Page */
@@ -69,7 +72,7 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
 router.post('/:id/delete', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   await book.destroy();
-  res.redirect('/');
+  res.redirect('/books');
 }));
 
 module.exports = router;
