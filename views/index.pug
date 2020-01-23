@@ -19,7 +19,7 @@ block content
       each book in books
         tr
           td
-            a.book-name(href=`/books/${book.id}`) #{book.title}
+            a.book-name(href=`/books/${book.id}/update`) #{book.title}
           td #{book.author}
           td #{book.genre}
           td #{book.year}
