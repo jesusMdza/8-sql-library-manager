@@ -70,6 +70,32 @@ ul {
   line-height: 1.3em;
 }
 
+ul.page-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+ul li.page {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  text-align: center;
+  background: #434654;
+  border-radius: 5px;
+  color: #DFA671;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+
+ul li.active {
+  background: #C58449;
+  color: #E5E5E5;
+}
+
 h1 {
   font-size: 2.5em;
   font-weight: 500;
