@@ -4,6 +4,7 @@ block title
   title #{headTitle}
 
 block content
+  h1 #{alert}
   div.heading
     h1 #{title}
     div.button-container
@@ -23,3 +24,10 @@ block content
           td #{book.author}
           td #{book.genre}
           td #{book.year}
+  ul.page-container
+    each pageNumber in pagesArray
+      a(href=`/books/page=${pageNumber}`)
+        if pageParam === pageNumber
+          li.page.active #{pageNumber}
+        else 
+          li.page #{pageNumber}
