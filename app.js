@@ -39,7 +39,7 @@ app.use(function(err, req, res, next) {
   // render the 404 view
   if (err.status === 404) {
     res.status(404);
-    res.render('page-not-found');
+    res.render('page-not-found', {headTitle: 'Page Not Found'});
   }
 });
 
