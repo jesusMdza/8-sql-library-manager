@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
 var Book = require('../models').Book;
 
 // wraps each route function callback
@@ -8,21 +10,23 @@ function asyncHandler(callback) {
     try {
       await callback(req, res, next);
     } catch (error) {
-      console.error('Something happened: ' + error);
+      console.error(`Something went wrong: ${error}`);
       res.status(500).render('error', {headTitle: 'Server Error'});
     }
   }
 } 
 
-// custom error constructor function
-function InvalidPageError(message) {
-  this.name = "InvalidPageError";
-  this.message = message;
+// custom error constructor class
+class InvalidPageError {
+  constructor(message) {
+    this.name = "InvalidPageError";
+    this.message = message;
+  }
 }
 
-// returns an array of numbers which each represent a page to create. Ex: [1,2,3]
+// returns an array of numbers which each number represent a page to create. Ex: array = [1,2,3]
 // 10 books to display per page
-function getTotalPages(total) {
+function getPageArray(total) {
   let pageNumber = 1;
   let array = [];
   for (let i = 0; i < total; i += 10) {
@@ -31,10 +35,24 @@ function getTotalPages(total) {
   return array; 
 }
 
-// compares "pageParam" number with the numbers in "array" and returns boolean
-function isValidPageNumber(array, pageParam) {
+// return true if "pageParameter" number matches any number in array argument
+function isValidPageNumber(array, parameter) {
+  let pageParameter = parseInt(parameter);
   for (let i = 0; i < array.length; i++) {
-    if (pageParam === array[i]) {
+    if (pageParameter === array[i]) {
+      return true;
+    } 
+  }
+  if (array === []) {
+    return true;
+  }
+  return false;
+}
+
+// return true if any object property contains a value
+function isCookieAvailable(object) {
+  for (let cookie in object) {
+    if (cookie !== null) {
       return true;
     }
   }
@@ -42,21 +60,51 @@ function isValidPageNumber(array, pageParam) {
 }
 
 /* GET home page. */
-router.get('/page=:page', asyncHandler(async (req, res, next) => {
-  let boolean;
+router.get('/page=:page?', asyncHandler(async (req, res, next) => {
+  let books;
+  let bookTotal;
+  let pagesArray;
+  let validPageBoolean;
+  let query = {};
+  let options = {
+    limit: 10, 
+    offset: (req.params.page - 1) * 10, 
+    where: {}
+  };
+
   try {
-    // req.flash('notify', 'This is a test notification');
-    const bookTotal = await Book.count();
-    const pagesArray = getTotalPages(bookTotal);
-    const offset = (req.params.page - 1) * 10;
-    const books = await Book.findAll({limit: 10, offset: offset});
-    boolean = isValidPageNumber(pagesArray, parseInt(req.params.page));
-    if (boolean === false) {
-      throw new InvalidPageError('This page is not valid');
+    // retrieve books if cookies exist
+    if (isCookieAvailable(req.cookies) === true) {
+
+      for (let cookie in req.cookies) {
+        let value = req.cookies[cookie];
+        // set "where" properties for "options" object
+        options.where[`${cookie}`] = {
+          [Op.like]: `%${value}%`
+        };
+        // query object for index view
+        query[`${cookie}`] = `${value}`;
+      }
+
+      books = await Book.findAll(options);
+      bookTotal = await Book.findAndCountAll(options);
+      pagesArray = getPageArray(bookTotal.count);
+    } else {
+      books = await Book.findAll(options);
+      bookTotal = await Book.count();
+      pagesArray = getPageArray(bookTotal);
     }
-    res.render("index", {headTitle: 'Books', title: 'Library', books: books, pagesArray: pagesArray, pageParam: parseInt(req.params.page)});
+    validPageBoolean = isValidPageNumber(pagesArray, req.params.page);
+    console.error(validPageBoolean);
+    if (validPageBoolean === false) {
+      throw new InvalidPageError('This page is not valid. Please view books.js to view custom error constructor class.');
+    }
+
+    // console.error({headTitle: 'Books', title: 'Library', books: books, pagesArray: pagesArray, pageParam: parseInt(req.params.page), query: query});
+    res.render("index", {headTitle: 'Books', title: 'Library', books: books, pagesArray: pagesArray, pageParam: parseInt(req.params.page), query: query});
   } catch (error) {
       if (error.name === 'InvalidPageError') {
+        console.error(`Something went wrong: ${error.name}: ${error.message}`);
         res.status(404);
         res.render('page-not-found', {headTitle: 'Page Not Found'});
       } else {
@@ -75,7 +123,7 @@ router.post('/new', asyncHandler(async (req, res, next) => {
   let newBook;
   try {
     newBook = await Book.create(req.body);
-    res.redirect('books/page=1');
+    res.redirect('/books/page=1');
   }
   catch (error) {
     if (error.name === 'SequelizeValidationError') {
@@ -114,6 +162,48 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
 router.post('/:id/delete', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   await book.destroy();
+  res.redirect('/books/page=1');
+}));
+
+/* GET Search Page */
+router.get('/search', asyncHandler(async (req, res, next) => {
+  res.render('search-book', {headTitle: 'Search Book', title: 'Search Book', book: {}});
+}));
+
+/* POST Search Page */
+router.post('/search', asyncHandler(async (req, res, next) => {
+  try {
+    res.cookie('title', req.body.title);
+    res.cookie('author', req.body.author);
+    res.cookie('genre', req.body.genre);
+    res.cookie('year', req.body.year);
+    res.redirect('/books/page=1');
+  } catch (error) {
+    throw error;
+  }
+}));
+
+/* POST clearTitle Page */
+router.post('/clear/title', asyncHandler(async (req, res, next) => {
+  res.clearCookie('title');
+  res.redirect('/books/page=1');
+}));
+
+/* POST clearAuthor Page */
+router.post('/clear/author', asyncHandler(async (req, res, next) => {
+  res.clearCookie('author');
+  res.redirect('/books/page=1');
+}));
+
+/* POST clearGenre Page */
+router.post('/clear/genre', asyncHandler(async (req, res, next) => {
+  res.clearCookie('genre');
+  res.redirect('/books/page=1');
+}));
+
+/* POST clearYear Page */
+router.post('/clear/year', asyncHandler(async (req, res, next) => {
+  res.clearCookie('year');
   res.redirect('/books/page=1');
 }));
 
