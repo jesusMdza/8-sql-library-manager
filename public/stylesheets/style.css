@@ -10,33 +10,32 @@ a {
   font-weight: 700;
 }
 
-a.button, input[type=submit] {
-  background: #C58449;
+a.button, .multi-button-container input[type=submit] {
   color: #E5E5E5;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   padding: 12px 22px;
   font-size: 18px;
   border-radius: 4px;
   cursor: pointer;
+  border: none;
 }
 
 a.button {
   height: 22px;
+  margin-left: 20px;
 }
 
 a.button.delete {
   background: #A72A2A;
-  margin-left: 20px;
+  
 }
 
 a.button.cancel {
   background: #6C7085;
-  margin-left: 20px;
 }
 
 a.button.no {
   background: #6C7085;
-  margin-left: 20px;
 }
 
 a.book-name {
@@ -51,16 +50,8 @@ span.book-name-delete {
   color: #DFA671;
 }
 
-form a.button, input[type=submit] {
+form a.button {
   background: rgb(190, 126, 65);
-}
-
-input[type=submit] {
-  border: 0;
-}
-
-input.delete[type=submit] {
-  background: #A72A2A;
 }
 
 ul {
@@ -102,13 +93,14 @@ h1 {
 }
 
 .heading {
-  margin: 120px auto 60px;
+  margin: 120px auto 30px;
   display: flex;
   width: 60%;
   justify-content: space-between;
 }
 
-.button-container {
+.button-container,
+.link-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -118,13 +110,47 @@ h1 {
   display: flex;
 }
 
+.multi-link-container {
+  display: flex;
+}
+
+.multi-link-container a {
+  display: flex;
+  color: #E5E5E5;
+  font-weight: 500;
+}
+
+.filter-container {
+  display: flex;
+  width: 55%;
+  margin: 0 auto 10px auto;
+}
+
+.filter-box {
+  margin-right: 50px;
+  font-weight: 500;
+  display: flex;
+}
+
+.filter-box span {
+  color: #bbbbbb
+}
+
+.close {
+  margin-right: 10px;
+}
+
+.close svg {
+  margin-top: 2px;
+  cursor: pointer;
+}
+
 .heading .multi-button-container h2 {
   margin: 0;
   padding: 0;
 }
 
-
-form label {
+form h2 label {
   margin-right: 35px;
 }
 
@@ -163,12 +189,20 @@ label {
   display: inline-block;
 }
 
+label.filter {
+  min-width: 0px;
+  display: block;
+}
+
 input {
-  padding: 10px;
   font-size: 14px;
   border-radius: 5px;
-  color: #E5E5E5;
   font-weight: 700;
+  color: #E5E5E5;
+}
+
+input.filter {
+  display: none;
 }
 
 input[type=text] {
@@ -181,6 +215,14 @@ input[type=text] {
   border: none;
   outline: none;
   box-sizing: border-box;
+}
+
+a.button.home, input.create {
+  background: #C58449;
+}
+
+a.button.home {
+  margin: 0;
 }
 
 input[type=text]:focus {
@@ -196,11 +238,19 @@ input.update {
   background: #778909;
 }
 
-.error {
-  color: #F9444A;
-  font-size: 1.5em;
+input.search {
+  background: #4763C6;
+}
+
+input.delete[type=submit] {
+  background: #A72A2A;
 }
 
 form h2 {
   padding: 5px 0;
+}
+
+.error {
+  color: #F9444A;
+  font-size: 1.5em;
 }
