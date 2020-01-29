@@ -38,6 +38,7 @@ app.use(function(err, req, res, next) {
 
   // render the 404 view
   if (err.status === 404) {
+    console.error(`Something went wrong: ${err}`);
     res.status(404);
     res.render('page-not-found', {headTitle: 'Page Not Found'});
   }
