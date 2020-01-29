@@ -104,7 +104,7 @@ router.post('/new', asyncHandler(async (req, res, next) => {
 }));
 
 /* GET book by id. */
-router.get('/:id/update', asyncHandler(async (req, res, next) => {
+router.get('/:id', asyncHandler(async (req, res, next) => {
   try {
     const book = await Book.findByPk(req.params.id);
     res.render('update-book', {headTitle: book.title, title: 'Update Book', book: book});
@@ -114,7 +114,7 @@ router.get('/:id/update', asyncHandler(async (req, res, next) => {
 }));
 
 /* UPDATE book by id. */
-router.post('/:id/update', asyncHandler(async (req, res, next) => {
+router.post('/:id', asyncHandler(async (req, res, next) => {
   let book = await Book.findByPk(req.params.id);
   await book.update(req.body);
   res.redirect('/books/page=1');
