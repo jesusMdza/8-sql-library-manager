@@ -13,24 +13,24 @@ block content
             input.create(type='submit' value='Create Book +')
           a.button.cancel(href='/books/page=1') Cancel
     div.field-container
-      include form-error
       if errors
-        if !newBook.title
+        include includes/form-error
+        if titleError
           h2
             label(for='title') Title
-            input#title.error(name='title' type='text' value=newBook.title)   
-        if newBook.title
+            input#title.error(name='title' type='text' value=newBook.title) 
+        else 
           h2
             label(for='title') Title
-            input#title(name='title' type='text' value=newBook.title)   
-        if !newBook.author
+            input#title(name='title' type='text' value=newBook.title) 
+        if authorError
           h2
             label(for='author') Author
-            input#author.error(name='author' type='text' value=newBook.author)   
-        if newBook.author   
+            input#author.error(name='author' type='text' value=newBook.author) 
+        else 
           h2
             label(for='author') Author
-            input#author(name='author' type='text' value=newBook.author)    
+            input#author(name='author' type='text' value=newBook.author)   
         h2
           label(for='genre') Genre
           input#genre(name='genre' type='text' value=newBook.genre)
