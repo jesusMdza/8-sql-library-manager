@@ -1,7 +1,10 @@
 extends layout
 
+block title
+  title #{headTitle}
+
 block content
-  form(method='post' action=`/books/search`)
+  form(method='post' action='/books/search')
     div.heading
       h1 #{title}
       div.button-container

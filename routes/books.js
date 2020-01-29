@@ -103,6 +103,24 @@ router.post('/new', asyncHandler(async (req, res, next) => {
   }
 }));
 
+/* GET Search Page */
+router.get('/search', asyncHandler(async (req, res, next) => {
+  res.render('search-book', {headTitle: 'Search Book', title: 'Search Book', book: {}});
+}));
+
+/* POST Search Page */
+router.post('/search', asyncHandler(async (req, res, next) => {
+  try {
+    res.cookie('title', req.body.title);
+    res.cookie('author', req.body.author);
+    res.cookie('genre', req.body.genre);
+    res.cookie('year', req.body.year);
+    res.redirect('/books/page=1');
+  } catch (error) {
+    throw error;
+  }
+}));
+
 /* GET book by id. */
 router.get('/:id', asyncHandler(async (req, res, next) => {
   try {
@@ -131,24 +149,6 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   await book.destroy();
   res.redirect('/books/page=1');
-}));
-
-/* GET Search Page */
-router.get('/search', asyncHandler(async (req, res, next) => {
-  res.render('search-book', {headTitle: 'Search Book', title: 'Search Book', book: {}});
-}));
-
-/* POST Search Page */
-router.post('/search', asyncHandler(async (req, res, next) => {
-  try {
-    res.cookie('title', req.body.title);
-    res.cookie('author', req.body.author);
-    res.cookie('genre', req.body.genre);
-    res.cookie('year', req.body.year);
-    res.redirect('/books/page=1');
-  } catch (error) {
-    throw error;
-  }
 }));
 
 /* POST clear/title route */
