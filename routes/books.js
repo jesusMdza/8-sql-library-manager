@@ -63,7 +63,6 @@ router.get('/page=:page?', asyncHandler(async (req, res, next) => {
     res.render("index", {headTitle: 'Books', title: 'Library', books: books, pagesArray: pagesArray, pageParam: parseInt(req.params.page), query: query});
   } catch (error) {
       if (error.name === 'InvalidPageError') {
-        console.error(`Something went wrong: ${error.name}: ${error.message}`);
         res.status(404);
         res.render('page-not-found', {headTitle: 'Page Not Found'});
       } else {
@@ -97,7 +96,7 @@ router.post('/new', asyncHandler(async (req, res, next) => {
           authorError = error.errors[i];
         }
       }
-      res.render('new-book', {title: 'New Book', errors: error.errors, titleError: titleError, authorError: authorError, newBook: newBook});
+      res.render('new-book', {headTitle: 'New Book', title: 'New Book', errors: error.errors, titleError: titleError, authorError: authorError, newBook: newBook});
     } else {
       throw error;
     }
