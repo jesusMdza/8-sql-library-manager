@@ -9,3 +9,6 @@ To run this on your local machine:
 - `npm install`
 - `npm start`
 - `localhost:3000`
+
+## Live Demo
+https://express-sql-library-manager.herokuapp.com/
